@@ -1,8 +1,6 @@
 # CHANGELOG
 
-All notable changes to SYSTEMAI.EXE are documented in this file.
-
-The format follows Semantic Versioning.
+All notable changes to SYSTEMAI.EXE are documented here.
 
 ---
 
@@ -10,36 +8,38 @@ The format follows Semantic Versioning.
 
 ## Added
 
-- Enterprise AI architecture
 - Deterministic AI state machine
+- Python Runtime Layer
 - Rust event bus
+- Secure IPC model
 - Rollback orchestration
 - AI swarm governance
 - Policy engine
 - Human override mode
-- Secure IPC model
-- Threat modeling system
-- Sandboxed execution runtime
+- Local AI runtime integration
+- FastAPI orchestration
+- Telemetry expiration rules
+- STRIDE threat model
 
 ---
 
 ## Improved
 
-- Telemetry performance
 - Stability-first orchestration
 - Resource-aware execution
-- Recovery validation
-- Windows repair automation
+- Telemetry performance
+- Repair validation
+- Windows recovery workflows
 
 ---
 
 ## Security
 
+- Signed validation
+- Sandboxed execution
 - Least privilege enforcement
-- Signed execution validation
-- Tamper detection
 - Anti-recursive orchestration
-- Sandbox restrictions
+- Policy-based execution control
 
 ---
 
@@ -48,10 +48,9 @@ The format follows Semantic Versioning.
 ## Added
 
 - Unified event bus
+- Permission levels
 - Operational SLOs
-- Policy engine
-- Threat model
-- Permission system
+- Human override mode
 
 ---
 
@@ -59,7 +58,6 @@ The format follows Semantic Versioning.
 
 ## Stabilized
 
-- Core orchestration
 - Rollback runtime
 - Security dashboard
 - Repair engine
@@ -72,8 +70,7 @@ The format follows Semantic Versioning.
 
 - Electron frontend
 - Rust core
-- AI orchestration layer
+- AI orchestration
 - Windows diagnostics
-- Repair engine
 
 ---
