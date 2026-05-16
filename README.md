@@ -148,7 +148,7 @@ Resource-aware behavior is mandatory:
 Telemetry must be:
 
 - Minimal, local-first, batched, indexed, expirable, transparent
-- Retained for 60 days by default (configurable presets: 30, 60, or 90 days; default preset is 60)
+- Retained for 60 days by default (configurable presets: 30, 60, or 90 days)
 - Capped at 250MB per installation
 - When cap is reached, oldest entries are auto-pruned after compression/redaction
 - Pruning does not interrupt user workflows
@@ -156,11 +156,10 @@ Telemetry must be:
 
 ### Core architecture requirements
 
-- AI Swarm Orchestration: coordinated autonomous agents that share minimal state and execute only through the deterministic event bus.
+- AI Swarm Orchestration: coordinated autonomous agents that share minimal state, execute only through the deterministic event bus, use max 2 retries, avoid recursion, prevent destructive automation, and require verification.
 - Electron + React + TypeScript frontend with secure IPC and least privilege
 - Rust trusted core for telemetry, rollback/snapshots, enforcement, throttling, event bus, and stability control
 - Deterministic unified event bus with ordering, deduplication, rate limiting, journaling, replay, and persistence
-- AI swarm orchestration with max 2 retries, no recursion, no destructive automation, mandatory verification
 
 ### Human control and governance
 
