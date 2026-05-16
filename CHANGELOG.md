@@ -1,69 +1,76 @@
-# CONTRIBUTING
+# CHANGELOG
 
-Thank you for contributing to SYSTEMAI.EXE.
-
----
-
-# Development Principles
-
-All contributions must preserve:
-
-- Deterministic execution
-- Stability-first behavior
-- Sandboxed operations
-- Rollback safety
-- Security-first architecture
-- Human-centered UX
+All notable changes to SYSTEMAI.EXE are documented here.
 
 ---
 
-# Required Stack
+# [4.0.0] — 2026-05-16
 
-- Rust
-- Node.js
-- Electron
-- React
-- TypeScript
-- Python
-- PowerShell
+## Added
 
----
-
-# Contribution Rules
-
-All pull requests must include:
-
-- Security impact analysis
-- Stability impact analysis
-- Rollback considerations
-- Testing results
-- Resource impact summary
-
----
-
-# Security Requirements
-
-Changes affecting:
-
-- IPC
-- Sandbox runtime
-- Privileged execution
-- AI orchestration
+- Deterministic AI state machine
+- Python Runtime Layer
+- Rust event bus
+- Secure IPC model
+- Rollback orchestration
+- AI swarm governance
 - Policy engine
-- Recovery systems
-
-require additional review.
+- Human override mode
+- Local AI runtime integration
+- FastAPI orchestration
+- Telemetry expiration rules
+- STRIDE threat model
 
 ---
 
-# Commit Standards
+## Improved
 
-Recommended:
+- Stability-first orchestration
+- Resource-aware execution
+- Telemetry performance
+- Repair validation
+- Windows recovery workflows
 
-```bash
-feat:
-fix:
-security:
-perf:
-docs:
-refactor:
+---
+
+## Security
+
+- Signed validation
+- Sandboxed execution
+- Least privilege enforcement
+- Anti-recursive orchestration
+- Policy-based execution control
+
+---
+
+# [3.2.0]
+
+## Added
+
+- Unified event bus
+- Permission levels
+- Operational SLOs
+- Human override mode
+
+---
+
+# [3.1.2]
+
+## Stabilized
+
+- Rollback runtime
+- Security dashboard
+- Repair engine
+
+---
+
+# [3.0.0]
+
+## Initial Release
+
+- Electron frontend
+- Rust core
+- AI orchestration
+- Windows diagnostics
+
+---
