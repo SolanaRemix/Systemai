@@ -135,7 +135,7 @@ No privileged execution without validation.
 Resource-aware behavior is mandatory:
 
 - Avoid aggressive polling, recursive scans, telemetry spam, and over-parallelization
-- Idle target: CPU typically 1-2% and always < 2%, RAM < 150MB, minimal disk I/O
+- Idle target: CPU nominally <= 1% with hard ceiling < 2%, RAM < 150MB, minimal disk I/O
 - Event-driven telemetry with batching and adaptive intervals
 - Operational SLOs enforced for monitor/repair/swarm components
 
@@ -143,7 +143,7 @@ Telemetry must be:
 
 - Minimal, local-first, batched, indexed, expirable, transparent
 - Retained for 60 days by default (configurable to 30, 60, or 90 days)
-- Capped at 250MB per installation; when cap is reached, oldest entries are auto-pruned (after compression/redaction) with no user interruption
+- Capped at 250MB per installation; when cap is reached, oldest entries are auto-pruned (after compression/redaction) with no user interruption, and pruning events are logged and visible in the dashboard
 
 ### Core architecture requirements
 
