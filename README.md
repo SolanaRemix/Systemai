@@ -141,14 +141,14 @@ No privileged execution without validation.
 Resource-aware behavior is mandatory:
 
 - Avoid aggressive polling, recursive scans, telemetry spam, and over-parallelization
-- Idle target (system-wide): CPU nominally <= 1% with hard ceiling < 2%, RAM < 150MB, disk writes < 1/min
+- Idle target (system-wide): CPU nominally <= 1% with hard ceiling < 2%, RAM < 150MB, disk write operations < 1/min
 - Event-driven telemetry with batching and adaptive intervals
 - Operational SLOs enforced for monitor/repair/swarm components
 
 Telemetry must be:
 
 - Minimal, local-first, batched, indexed, expirable, transparent
-- Retained for 60 days by default (configurable to 30, 60, or 90 days)
+- Retained for 60 days by default (configurable presets: 30, 60, or 90 days; default preset is 60)
 - Capped at 250MB per installation
 - When cap is reached, oldest entries are auto-pruned after compression/redaction
 - Pruning does not interrupt user workflows
@@ -156,6 +156,7 @@ Telemetry must be:
 
 ### Core architecture requirements
 
+- AI Swarm Orchestration: coordinated autonomous agents that share minimal state and execute only through the deterministic event bus.
 - Electron + React + TypeScript frontend with secure IPC and least privilege
 - Rust trusted core for telemetry, rollback/snapshots, enforcement, throttling, event bus, and stability control
 - Deterministic unified event bus with ordering, deduplication, rate limiting, journaling, replay, and persistence
