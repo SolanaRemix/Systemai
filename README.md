@@ -141,7 +141,7 @@ No privileged execution without validation.
 Resource-aware behavior is mandatory:
 
 - Avoid aggressive polling, recursive scans, telemetry spam, and over-parallelization
-- Idle target: CPU nominally <= 1% with hard ceiling < 2%, RAM < 150MB, minimal disk I/O
+- Idle target (system-wide): CPU nominally <= 1% with hard ceiling < 2%, RAM < 150MB, disk writes < 1/min
 - Event-driven telemetry with batching and adaptive intervals
 - Operational SLOs enforced for monitor/repair/swarm components
 
@@ -159,7 +159,7 @@ Telemetry must be:
 - Electron + React + TypeScript frontend with secure IPC and least privilege
 - Rust trusted core for telemetry, rollback/snapshots, enforcement, throttling, event bus, and stability control
 - Deterministic unified event bus with ordering, deduplication, rate limiting, journaling, replay, and persistence
-- AI swarm orchestration with bounded retries, no recursion, no destructive automation, mandatory verification
+- AI swarm orchestration with max 2 retries, no recursion, no destructive automation, mandatory verification
 
 ### Human control and governance
 
