@@ -1,76 +1,69 @@
-# CHANGELOG
+# CONTRIBUTING
 
-All notable changes to SYSTEMAI.EXE are documented here.
-
----
-
-# [4.0.0] — 2026-05-16
-
-## Added
-
-- Deterministic AI state machine
-- Python Runtime Layer
-- Rust event bus
-- Secure IPC model
-- Rollback orchestration
-- AI swarm governance
-- Policy engine
-- Human override mode
-- Local AI runtime integration
-- FastAPI orchestration
-- Telemetry expiration rules
-- STRIDE threat model
+Thank you for contributing to SYSTEMAI.EXE.
 
 ---
 
-## Improved
+# Development Principles
 
-- Stability-first orchestration
-- Resource-aware execution
-- Telemetry performance
-- Repair validation
-- Windows recovery workflows
+All contributions must preserve:
 
----
-
-## Security
-
-- Signed validation
-- Sandboxed execution
-- Least privilege enforcement
-- Anti-recursive orchestration
-- Policy-based execution control
+- Deterministic execution
+- Stability-first behavior
+- Sandboxed operations
+- Rollback safety
+- Security-first architecture
+- Human-centered UX
 
 ---
 
-# [3.2.0]
+# Required Stack
 
-## Added
-
-- Unified event bus
-- Permission levels
-- Operational SLOs
-- Human override mode
-
----
-
-# [3.1.2]
-
-## Stabilized
-
-- Rollback runtime
-- Security dashboard
-- Repair engine
+- Rust
+- Node.js
+- Electron
+- React
+- TypeScript
+- Python
+- PowerShell
 
 ---
 
-# [3.0.0]
+# Contribution Rules
 
-## Initial Release
+All pull requests must include:
 
-- Electron frontend
-- Rust core
+- Security impact analysis
+- Stability impact analysis
+- Rollback considerations
+- Testing results
+- Resource impact summary
+
+---
+
+# Security Requirements
+
+Changes affecting:
+
+- IPC
+- Sandbox runtime
+- Privileged execution
 - AI orchestration
-- Windows diagnostics
+- Policy engine
+- Recovery systems
+
+require additional review.
 
 ---
+
+# Commit Standards
+
+Recommended:
+
+```bash
+feat:
+fix:
+security:
+perf:
+docs:
+refactor:
