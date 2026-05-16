@@ -1,19 +1,22 @@
+# `SECURITY.md`
+
+```md
 # SECURITY POLICY
 
 ## Supported Versions
 
 | Version | Supported |
 |----------|-----------|
-| 4.x      | Yes       |
-| 3.x      | Limited   |
+| 4.x | Yes |
+| 3.x | Limited |
 
 ---
 
-# Reporting a Vulnerability
+# Reporting Vulnerabilities
 
-Please report security vulnerabilities responsibly.
+Please disclose vulnerabilities responsibly.
 
-Do NOT publicly disclose vulnerabilities before remediation.
+DO NOT publicly disclose critical vulnerabilities before remediation.
 
 Contact:
 
@@ -21,15 +24,30 @@ security@systemai.exe
 
 ---
 
-# Security Goals
+# Security Priorities
 
-SYSTEMAI.EXE prioritizes:
+SYSTEMAI.EXE enforces:
 
-- Deterministic execution
 - Least privilege
-- Sandboxed operations
+- Sandboxed execution
 - Signed validation
-- Rollback safety
-- Human-centered transparency
+- Rollback protection
+- Deterministic execution
+- Secure IPC
+- Human override controls
+
+---
+
+# Scope
+
+Security review applies to:
+
+- Rust core
+- IPC runtime
+- Python plugins
+- PowerShell bridge
+- AI orchestration
+- Sandbox runtime
+- Recovery systems
 
 ---
