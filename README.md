@@ -54,7 +54,13 @@ Priority order:
 
 SYSTEMAI.EXE must provide a calm, transparent, professional, predictable, non-invasive experience with:
 
-- Clear distinction between monitoring, recommendations, autonomous actions, manual actions, pending approvals, and rollback-protected actions
+- Clear distinction between:
+  - Monitoring
+  - Recommendations
+  - Autonomous actions
+  - Manual actions
+  - Pending approvals
+  - Rollback-protected actions
 - No dark patterns
 - No hidden automation
 - No silent privileged execution
@@ -143,7 +149,10 @@ Telemetry must be:
 
 - Minimal, local-first, batched, indexed, expirable, transparent
 - Retained for 60 days by default (configurable to 30, 60, or 90 days)
-- Capped at 250MB per installation; when cap is reached, oldest entries are auto-pruned (after compression/redaction) with no user interruption, and pruning events are logged and visible in the dashboard
+- Capped at 250MB per installation
+- When cap is reached, oldest entries are auto-pruned after compression/redaction
+- Pruning does not interrupt user workflows
+- Pruning events are logged and visible in the dashboard
 
 ### Core architecture requirements
 
