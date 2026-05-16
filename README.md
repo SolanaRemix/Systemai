@@ -123,7 +123,7 @@ No privileged execution without validation.
 
 ### Security, threat model, and sandboxing
 
-- STRIDE-aligned threat model (Spoofing, Tampering, Repudiation, Info disclosure, DoS, EoP)
+- STRIDE-aligned threat model (Spoofing, Tampering, Repudiation, Information disclosure, DoS, EoP)
 - Least privilege and input validation everywhere
 - Signed privileged workflows only
 - Provenance validation for execution
@@ -135,15 +135,15 @@ No privileged execution without validation.
 Resource-aware behavior is mandatory:
 
 - Avoid aggressive polling, recursive scans, telemetry spam, and over-parallelization
-- Idle target: CPU < 1–2%, RAM < 150MB, minimal disk I/O
+- Idle target: CPU < 1-2%, RAM < 150MB, minimal disk I/O
 - Event-driven telemetry with batching and adaptive intervals
 - Operational SLOs enforced for monitor/repair/swarm components
 
 Telemetry must be:
 
 - Minimal, local-first, batched, indexed, expirable, transparent
-- Retained for max 30–90 days
-- Capped at 250MB with pruning/compression/redaction
+- Retained for 60 days by default (configurable between 30-90 days)
+- Capped at 250MB per installation with pruning/compression/redaction
 
 ### Core architecture requirements
 
