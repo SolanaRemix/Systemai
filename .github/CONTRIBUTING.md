@@ -4,51 +4,66 @@ Thank you for contributing to SYSTEMAI.EXE.
 
 ---
 
-# Requirements
+# Development Principles
 
-All contributions must:
+All contributions must preserve:
 
-- Pass CI
-- Follow security review
-- Use signed commits when possible
-- Maintain deterministic behavior
-- Preserve rollback safety
-- Respect sandbox policies
+- Deterministic execution
+- Stability-first behavior
+- Sandboxed operations
+- Rollback safety
+- Security-first architecture
+- Human-centered UX
 
 ---
 
-# Development Stack
+# Required Stack
 
+- Rust
+- Node.js
 - Electron
 - React
 - TypeScript
-- Rust
-- Node.js
+- Python
 - PowerShell
 
 ---
 
-# Pull Requests
+# Contribution Rules
 
-Please include:
+All pull requests must include:
 
-- Clear descriptions
-- Security impact
-- Stability impact
+- Security impact analysis
+- Stability impact analysis
 - Rollback considerations
 - Testing results
+- Resource impact summary
 
 ---
 
-# Security Review
+# Security Requirements
 
-High-risk changes require additional review.
+Changes affecting:
 
-Examples:
-
-- IPC modifications
-- Sandbox changes
+- IPC
+- Sandbox runtime
 - Privileged execution
-- AI orchestration logic
+- AI orchestration
+- Policy engine
+- Recovery systems
+
+require additional review.
 
 ---
+
+# Commit Standards
+
+Recommended:
+
+```bash
+feat:
+fix:
+security:
+perf:
+docs:
+refactor:
