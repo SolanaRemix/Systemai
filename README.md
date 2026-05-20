@@ -100,7 +100,7 @@ Before meaningful execution, SYSTEMAI.EXE must explain:
 
 Example:
 
-`Windows Update cache corruption detected. Proposed repair: DISM component cleanup and Windows Update service reset.`
+`Windows Update cache corruption detected. Proposed repair: DISM component cleanup and Windows Update service reset. Risk level: Medium. Expected impact: restores update reliability with minor temporary service restart. Estimated resource usage: low CPU, <200MB RAM spike. Estimated duration: 3-8 minutes. Rollback availability: service/startup configuration snapshot will be restored if verification fails. Possible side effects: brief update service interruption. Services affected: wuauserv, bits. Files affected: %windir%\SoftwareDistribution\* and component store metadata.`
 
 ### Deterministic state machine
 
