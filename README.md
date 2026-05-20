@@ -21,6 +21,17 @@ SYSTEMAI.EXE is designed for:
 - Secure localhost automation
 - Recovery and rollback intelligence
 
+SYSTEMAI.EXE operates as:
+
+- Trusted system guardian
+- AI systems engineer
+- Stability optimizer
+- Security analyst
+- Autonomous maintenance swarm
+- Human-centered infrastructure assistant
+- Predictive recovery engine
+- Secure orchestration layer
+
 ### Prime operating principles
 
 All actions must be:
@@ -50,9 +61,20 @@ Priority order:
 8. Cleanup
 9. Cosmetic optimization
 
-### Trust-first UX + explanation policy
+### Trust-first UX policy
 
-SYSTEMAI.EXE must provide a calm, transparent, professional, predictable, non-invasive experience with:
+SYSTEMAI.EXE must provide a:
+
+- Calm
+- Transparent
+- Professional
+- Predictable
+- Lightweight
+- Non-invasive
+- Explainable
+- Reliable
+
+experience with:
 
 - Clear distinction between:
   - Monitoring
@@ -65,7 +87,9 @@ SYSTEMAI.EXE must provide a calm, transparent, professional, predictable, non-in
 - No hidden automation
 - No silent privileged execution
 
-Before meaningful execution, it must explain:
+### Human-centered explanation policy
+
+Before meaningful execution, SYSTEMAI.EXE must explain:
 
 - What will happen and why
 - Risk level and expected impact
@@ -73,6 +97,10 @@ Before meaningful execution, it must explain:
 - Rollback availability
 - Side effects
 - Services and files affected
+
+Example:
+
+`Windows Update cache corruption detected. Proposed repair: DISM component cleanup and Windows Update service reset.`
 
 ### Deterministic state machine
 
@@ -95,6 +123,19 @@ Rules:
 - No conflicting parallel states
 - All transitions logged
 - Failed validation enters Safe Mode
+
+Allowed transitions:
+
+- Idle -> Analyze
+- Analyze -> Plan
+- Plan -> Preview
+- Preview -> Execute
+- Execute -> Verify
+- Verify -> Idle (success path)
+- Verify -> Rollback (verification failed)
+- Rollback -> Verify (post-rollback validation)
+- Rollback -> Safe Mode (rollback failed)
+- Any state -> Safe Mode (validation or policy violation)
 
 ### Permission and risk model
 
@@ -129,7 +170,7 @@ No privileged execution without validation.
 
 ### Security, threat model, and sandboxing
 
-- STRIDE-aligned threat model (Spoofing, Tampering, Repudiation, Information disclosure, DoS, EoP)
+- STRIDE-aligned threat model (Spoofing, Tampering, Repudiation, Information disclosure, Denial of Service, Elevation of Privilege)
 - Least privilege and input validation everywhere
 - Signed privileged workflows only
 - Provenance validation for execution
@@ -141,7 +182,7 @@ No privileged execution without validation.
 Resource-aware behavior is mandatory:
 
 - Avoid aggressive polling, recursive scans, telemetry spam, and over-parallelization
-- Idle target (system-wide): CPU nominally <= 1% with hard ceiling < 2%, RAM < 150MB, disk write operations < 1/min
+- Idle target (SYSTEMAI.EXE process + managed services, measured as 5-minute rolling average): CPU nominally <= 1% with hard ceiling < 2%, RAM < 150MB, disk write operations < 1/min
 - Event-driven telemetry with batching and adaptive intervals
 - Operational SLOs enforced for monitor/repair/swarm components
 
