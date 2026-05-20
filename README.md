@@ -1,14 +1,20 @@
-# SYSTEMAI.EXE
+# ⚡ SYSTEMAI.EXE V4.0
+## CANONICAL PRODUCTION RELEASE
+### Deterministic AI Operating Layer for Windows
 
-System AI Security, Monitoring, and Localhost Operations Platform for Windows.
+![Version](https://img.shields.io/badge/version-v4.0-blue)
+![Platform](https://img.shields.io/badge/platform-Windows-success)
+![License](https://img.shields.io/badge/license-Apache%202.0-green)
+![Rust](https://img.shields.io/badge/core-Rust-orange)
+![Electron](https://img.shields.io/badge/frontend-Electron-47848F)
+![Python](https://img.shields.io/badge/AI-Python-yellow)
+![Ollama](https://img.shields.io/badge/LLM-Ollama-purple)
 
-## V4.0 — Canonical Production Release Baseline
+---
 
-This repository now defines the **canonical production requirements** for SYSTEMAI.EXE as a deterministic, trusted AI operating layer.
+# 🜁 OVERVIEW
 
-### Core identity
-
-SYSTEMAI.EXE is designed for:
+SYSTEMAI.EXE is a deterministic, trusted, AI-powered Windows operations platform engineered for:
 
 - System diagnostics
 - Autonomous repair
@@ -21,7 +27,7 @@ SYSTEMAI.EXE is designed for:
 - Secure localhost automation
 - Recovery and rollback intelligence
 
-SYSTEMAI.EXE operates as:
+SYSTEMAI.EXE acts as:
 
 - Trusted system guardian
 - AI systems engineer
@@ -32,77 +38,138 @@ SYSTEMAI.EXE operates as:
 - Predictive recovery engine
 - Secure orchestration layer
 
-### Prime operating principles
+---
 
-All actions must be:
+# 🜂 CORE PHILOSOPHY
 
-- Logged
-- Traceable
-- Reversible
-- Permission-aware
-- Risk-scored
-- Human-explainable
-- Sandboxed
-- Resource-efficient
-- Stability-first
-- Security-first
-- Deterministic
-- Policy-validated
+SYSTEMAI.EXE is designed around:
 
-Priority order:
+- Deterministic execution
+- Trust-first UX
+- Human-centered AI
+- Sandboxed automation
+- Rollback-first recovery
+- Security-first architecture
+- Stability-first orchestration
+- Low-resource operation
+- Transparent governance
 
-1. System integrity
-2. User safety
-3. Security
-4. Stability
-5. Compatibility
-6. Transparency
-7. Performance
-8. Cleanup
-9. Cosmetic optimization
+NO hidden privileged execution.
 
-### Trust-first UX policy
+NO destructive automation.
 
-SYSTEMAI.EXE must provide a:
+NO dark patterns.
 
-- Calm
-- Transparent
-- Professional
-- Predictable
-- Lightweight
-- Non-invasive
-- Explainable
-- Reliable
+NO opaque AI actions.
 
-experience with:
+---
 
-- Clear distinction between:
-  - Monitoring
-  - Recommendations
-  - Autonomous actions
-  - Manual actions
-  - Pending approvals
-  - Rollback-protected actions
-- No dark patterns
-- No hidden automation
-- No silent privileged execution
+# 🜄 SOFTWARE CLASSIFICATION
 
-### Human-centered explanation policy
+## Primary Categories
 
-Before meaningful execution, SYSTEMAI.EXE must explain:
+- AI Infrastructure Software
+- Windows System Utility
+- Autonomous Operations Platform
+- AI DevOps Desktop Platform
 
-- What will happen and why
-- Risk level and expected impact
-- Estimated resource usage and duration
-- Rollback availability
-- Side effects
-- Services and files affected
+---
 
-Example:
+## Secondary Categories
 
-`Windows Update cache corruption detected. Proposed repair: DISM component cleanup and Windows Update service reset. Risk level: Medium. Expected impact: restores update reliability with minor temporary service restart. Estimated resource usage: low CPU, <200MB RAM spike. Estimated duration: 3-8 minutes. Rollback availability: service/startup configuration snapshot will be restored if verification fails. Possible side effects: brief update service interruption. Services affected: wuauserv, bits. Files affected: %windir%\SoftwareDistribution\* and component store metadata.`
+- Security Hardening Tool
+- Localhost Orchestration Platform
+- AI Monitoring Suite
+- System Recovery Platform
+- Workflow Automation Platform
 
-### Deterministic state machine
+---
+
+# 🜃 PRODUCT POSITIONING
+
+## Short Version
+
+SYSTEMAI.EXE is a deterministic AI-powered Windows operations platform for diagnostics, repair, security hardening, workflow orchestration, and autonomous self-healing optimization.
+
+---
+
+## Enterprise Version
+
+SYSTEMAI.EXE is a production-grade AI operating layer for Windows that combines deterministic orchestration, sandboxed execution, rollback protection, intelligent monitoring, and multi-agent automation into a secure enterprise desktop platform.
+
+---
+
+# 🜁 ENTERPRISE ARCHITECTURE
+
+SYSTEMAI.EXE is powered by a hybrid enterprise runtime architecture:
+
+- Rust for trusted systems execution
+- Electron + React for modern desktop UX
+- Node.js for orchestration
+- PowerShell for Windows-native operations
+- Python for AI, ML, analytics, and automation
+
+---
+
+# 🜂 TECH STACK
+
+## Frontend
+
+- Electron
+- React
+- TypeScript
+- TailwindCSS
+- Zustand
+- Framer Motion
+
+---
+
+## Backend
+
+- Rust Core
+- Node.js
+- PowerShell Bridge
+- Python Runtime Layer
+
+---
+
+## AI Layer
+
+- Ollama
+- OpenAI-Compatible APIs
+- Local LLM Runtime
+- Multi-Agent Orchestration
+- Embedding Pipelines
+- AI Plugin Runtime
+
+---
+
+## Python AI Stack
+
+- FastAPI
+- LangChain
+- LlamaIndex
+- PyTorch
+- Transformers
+- ONNX Runtime
+- TensorFlow
+- FAISS
+- ChromaDB
+
+---
+
+## Database
+
+- SQLite
+- Indexed Telemetry
+- Persistent Logs
+- Snapshot Metadata
+
+---
+
+# 🜄 CORE FEATURES
+
+## Deterministic AI State Machine
 
 Allowed states:
 
@@ -117,120 +184,258 @@ Allowed states:
 
 Rules:
 
-- No state skipping
 - No recursive execution
 - No hidden transitions
 - No conflicting parallel states
 - All transitions logged
 - Failed validation enters Safe Mode
 
-Allowed transitions:
+---
 
-- Idle -> Analyze
-- Analyze -> Plan
-- Plan -> Preview
-- Preview -> Execute
-- Execute -> Verify
-- Verify -> Idle (success path)
-- Verify -> Rollback (verification failed)
-- Rollback -> Verify (post-rollback validation)
-- Rollback -> Safe Mode (rollback failed)
-- Any state -> Safe Mode (validation or policy violation)
+## Permission Model
 
-### Permission and risk model
+### Level 0 — SAFE
 
-Permission levels:
+Auto-allowed tasks:
 
-- **L0 SAFE**: auto-allowed safe maintenance
-- **L1 ELEVATED**: user approval required
-- **L2 PRIVILEGED**: explicit approval + snapshot + integrity validation
-- **L3 CRITICAL**: secure confirmation + snapshot verification + recovery validation
+- Temp cleanup
+- Cache trimming
+- Log pruning
 
-Risk classes:
+---
 
-- **LOW**: safe maintenance
-- **MEDIUM**: configuration changes
-- **HIGH**: system-level modifications
-- **CRITICAL**: core OS modifications
+### Level 1 — ELEVATED
 
-### Execution governance
+Requires approval:
 
-Every action must pass through:
+- Service restart
+- Runtime repair
+- Dependency repair
 
-1. Permission Validator
-2. Risk Scoring Engine
-3. Policy Engine
-4. Sandbox Executor
-5. Dependency Validator
-6. Rollback Snapshot Manager
-7. Integrity Verification Layer
-8. Stability Confirmation Layer
+---
 
-No privileged execution without validation.
+### Level 2 — PRIVILEGED
 
-### Security, threat model, and sandboxing
+Requires:
 
-- STRIDE-aligned threat model (Spoofing, Tampering, Repudiation, Information disclosure, Denial of Service, Elevation of Privilege)
-- Least privilege and input validation everywhere
-- Signed privileged workflows only
-- Provenance validation for execution
-- Permission-aware, signed, resource-limited sandbox runtime
-- Filesystem/process/network restrictions, dangerous command filtering, timeout/CPU/memory ceilings
+- Explicit approval
+- Snapshot generation
+- Integrity validation
 
-### Performance and telemetry policy
+Examples:
 
-Resource-aware behavior is mandatory:
+- Registry edits
+- Driver operations
+- Firewall changes
 
-- Avoid aggressive polling, recursive scans, telemetry spam, and over-parallelization
-- Idle target (SYSTEMAI.EXE process + managed services, measured as 5-minute rolling average): CPU nominally <= 1% with hard ceiling < 2%, RAM < 150MB, disk write operations < 1/min
-- Event-driven telemetry with batching and adaptive intervals
-- Operational SLOs enforced for monitor/repair/swarm components
+---
 
-Telemetry must be:
+### Level 3 — CRITICAL
 
-- Minimal, local-first, batched, indexed, expirable, transparent
-- Retained for 60 days by default (configurable presets: 30, 60, or 90 days)
-- Capped at 250MB per installation
-- When cap is reached, oldest entries are auto-pruned after compression/redaction
-- Pruning does not interrupt user workflows
-- Pruning events are logged and visible in the dashboard
+Requires:
 
-### Core architecture requirements
+- Secure confirmation
+- Recovery validation
+- Safe rollback path
 
-- AI Swarm Orchestration: coordinated autonomous agents that share minimal state, execute only through the deterministic event bus, use max 2 retries, avoid recursion, prevent destructive automation, and require verification.
-- Electron + React + TypeScript frontend with secure IPC and least privilege
-- Rust trusted core for telemetry, rollback/snapshots, enforcement, throttling, event bus, and stability control
-- Deterministic unified event bus with ordering, deduplication, rate limiting, journaling, replay, and persistence
+Examples:
 
-### Human control and governance
+- Bootloader operations
+- Kernel changes
+- Recovery modifications
 
-Users must always be able to:
+---
 
-- Pause AI
-- Disable automation
-- Force Guided Mode
-- Kill all agents
-- Restore latest stable snapshot
-- Enter Safe Mode manually
-- Disable telemetry
-- Lock privileged execution
+# 🜃 SECURITY MODEL
 
-### Required system outputs
+SYSTEMAI.EXE uses a STRIDE-based threat model.
 
-Each operation must generate:
+Threat categories:
 
-1. System Analysis
-2. Action Plan
-3. Execution Log
-4. Validation
-5. Final Report
+- Spoofing
+- Tampering
+- Repudiation
+- Information Disclosure
+- Denial of Service
+- Elevation of Privilege
 
-### Product objective
+Security principles:
 
-SYSTEMAI.EXE must ship as a production-grade, lightweight, stable, secure, transparent, deterministic Windows AI operating layer with:
-
-- Guided mode transparency
-- Safe autonomous mode
+- Least privilege
+- Signed validation
+- Secure IPC
 - Sandboxed execution
 - Rollback protection
-- Human-centered explainability
+- Policy validation
+- Resource throttling
+
+---
+
+# 🜁 SANDBOX EXECUTION
+
+ALL privileged operations execute inside:
+
+- Permission-aware sandbox
+- Restricted execution environment
+- Rollback-protected runtime
+- Resource-limited worker environment
+
+Protections include:
+
+- Filesystem restrictions
+- Process isolation
+- Execution timeouts
+- CPU quotas
+- Memory ceilings
+- Secure IPC boundaries
+- Dangerous command filtering
+
+---
+
+# 🜂 AI MODULES
+
+## Included Engines
+
+- AI Chatbot Engine
+- System Monitor Engine
+- Smart Sanitizer Engine
+- Process Orchestrator
+- Memory Optimization Engine
+- Windows Repair Engine
+- Localhost Workflow Engine
+- Security Hardening Engine
+- Auto-Heal Swarm
+- Rollback & Restore System
+- Security Dashboard
+
+---
+
+# 🜄 LOCALHOST INFRASTRUCTURE
+
+SYSTEMAI.EXE manages:
+
+- Docker
+- WSL
+- Ollama
+- PostgreSQL
+- Redis
+- Nginx
+- Node.js
+- Python
+- FastAPI
+- MCP Servers
+
+Capabilities:
+
+- Environment validation
+- Dependency repair
+- Runtime synchronization
+- Health monitoring
+- Port conflict detection
+
+---
+
+# 🜃 PYTHON RUNTIME LAYER
+
+Python is a first-class runtime layer.
+
+Used for:
+
+- AI tooling
+- ML inference
+- Telemetry analytics
+- Security analysis
+- Agent orchestration
+- Plugin execution
+- Recovery tooling
+- Embedding pipelines
+
+Supported:
+
+- venv
+- Poetry
+- pip
+- uv
+- Conda
+
+Recommended:
+
+- Python 3.12+
+
+---
+
+# 🜁 PERFORMANCE TARGETS
+
+## Idle Targets
+
+- CPU usage < 1–2%
+- RAM footprint < 150MB
+- Minimal disk I/O
+- Event-driven telemetry
+- Lazy-loaded modules
+
+---
+
+## Operational SLOs
+
+### System Monitor
+
+- CPU overhead < 1%
+- RAM < 150MB
+- Disk writes < 1/min
+
+### Repair Engine
+
+- Max repair time: 15 minutes
+- Snapshot mandatory for MEDIUM+
+- Sandbox mandatory for ALL
+
+### Auto-Heal Swarm
+
+- Max retries: 2
+- No destructive automation
+- Mandatory verification phase
+
+---
+
+# 🜂 DISTRIBUTION TARGETS
+
+Production builds:
+
+- SYSTEMAI-Setup-x64.exe
+- SYSTEMAI-Portable.exe
+- SYSTEMAI-Agent.exe
+- SYSTEMAI-Recovery.exe
+
+---
+
+# 🜄 REPOSITORY
+
+GitHub Repository:
+
+https://github.com/SolanaRemix/Systemai
+
+README:
+
+https://github.com/SolanaRemix/Systemai/blob/main/README.md
+
+---
+
+# 🜃 INSTALLATION
+
+## Requirements
+
+- Windows 11 / Windows 10
+- Node.js 22+
+- Rust stable
+- Python 3.12+
+- PowerShell 7+
+- Ollama (optional)
+
+---
+
+## Clone Repository
+
+```bash
+git clone https://github.com/SolanaRemix/Systemai.git
+cd Systemai
