@@ -1,0 +1,19 @@
+[package]
+name = "systemai_core"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+napi = "2"
+napi-derive = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time"] }
+tracing = "0.1"
+sqlx = { version = "0.8", default-features = false, features = ["sqlite", "runtime-tokio-rustls"] }
+
+[build-dependencies]
+napi-build = "2"
