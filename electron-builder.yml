@@ -1,0 +1,14 @@
+appId: exe.systemai
+productName: SYSTEMAI
+files:
+  - dist/**
+  - systemai/electron/**
+  - package.json
+directories:
+  output: release
+win:
+  target:
+    - nsis
+nsis:
+  oneClick: false
+  perMachine: false
