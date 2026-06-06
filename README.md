@@ -182,6 +182,19 @@ Allowed states:
 7. Rollback
 8. Safe Mode
 
+Explicit allowed transitions:
+
+| Current State | Allowed Next State(s) |
+| --- | --- |
+| Idle | Analyze |
+| Analyze | Plan, Safe Mode |
+| Plan | Preview, Safe Mode |
+| Preview | Execute, Plan, Idle |
+| Execute | Verify, Rollback, Safe Mode |
+| Verify | Idle, Rollback, Safe Mode |
+| Rollback | Verify, Safe Mode |
+| Safe Mode | Idle (manual approval required) |
+
 Rules:
 
 - No recursive execution
@@ -365,6 +378,8 @@ Recommended:
 ---
 
 # 🜁 PERFORMANCE TARGETS
+
+All performance metrics below apply to SYSTEMAI.EXE-managed processes only (desktop shell + background workers), measured as a 60-second rolling average, and exclude unrelated system activity.
 
 ## Idle Targets
 

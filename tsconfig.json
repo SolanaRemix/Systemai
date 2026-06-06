@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "types": ["node", "vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["systemai/src/*"],
+      "@ipc/*": ["systemai/src/ipc/*"],
+      "@types/*": ["systemai/src/types/*"]
+    }
+  },
+  "include": [
+    "vite.config.ts",
+    "vitest.config.ts",
+    "tailwind.config.ts",
+    "systemai/electron/**/*.ts",
+    "systemai/backend/**/*.ts",
+    "systemai/src/**/*.ts",
+    "systemai/src/**/*.tsx"
+  ]
+}
