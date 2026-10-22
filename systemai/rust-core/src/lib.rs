@@ -87,6 +87,20 @@ pub fn execute_rollback(snapshot_id: String) -> String {
 
 #[napi]
 pub fn verify_snapshot(snapshot_json: String) -> bool {
-    let parsed: Result<snapshot_manager::SnapshotMetadata, _> = serde_json::from_str(&snapshot_json);
+    let parsed = serde_json::from_str::<snapshot_manager::SnapshotMetadata>(&snapshot_json);
     parsed.map(|s| validate_integrity(&s)).unwrap_or(false)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{create_snapshot_metadata, verify_snapshot};
+
+    #[test]
+    fn verify_snapshot_validates_metadata_and_rejects_invalid_json() {
+        let metadata = create_snapshot_metadata("snapshot-1", "test");
+        let snapshot_json = serde_json::to_string(&metadata).unwrap();
+
+        assert!(verify_snapshot(snapshot_json));
+        assert!(!verify_snapshot("not json".to_string()));
+    }
 }

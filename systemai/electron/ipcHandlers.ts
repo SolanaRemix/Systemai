@@ -1,7 +1,33 @@
 import os from 'node:os';
 import { ipcMain } from 'electron';
 import type Database from 'better-sqlite3';
+import { validatePowerShellCommand } from '../backend/powershell-bridge';
+import { advanceWorkflow, createWorkflow, listWorkflows, rollbackWorkflow } from '../backend/workflow-engine';
+import { collectHealth } from '../backend/monitor-engine/health';
+import { TelemetryCollector } from '../backend/monitor-engine';
 import {
+  createSnapshot,
+  deletePolicy,
+  getAdminDashboard,
+  getDeveloperDashboard,
+  getSecurityPosture,
+  getUserDashboard,
+  listLogs,
+  verifySnapshot,
+  purgeLogs,
+  setPolicy
+} from '../backend/dashboard-service';
+import {
+  CreateSnapshotSchema,
+  HealthReportSchema,
+  CreateWorkflowSchema,
+  SanitizeSchema,
+  WorkflowIdSchema,
+  LogQuerySchema,
+  VerifySnapshotSchema,
+  DeletePolicySchema,
+  PurgeLogsSchema,
+  SetPolicySchema,
   AppInfoSchema,
   ChatRequestSchema,
   ChatResponseSchema,
@@ -14,43 +40,8 @@ import {
   type TelemetrySnapshot
 } from '../src/ipc/channels';
 
-const random = (min: number, max: number): number => Math.round((Math.random() * (max - min) + min) * 10) / 10;
-
-const getTelemetry = (): TelemetrySnapshot =>
-  TelemetrySchema.parse({
-    cpu: {
-      usage: random(8, 71),
-      temperature: random(40, 85),
-      perCore: Array.from({ length: os.cpus().length }, () => random(5, 95))
-    },
-    memory: {
-      total: os.totalmem(),
-      used: os.totalmem() - os.freemem(),
-      available: os.freemem(),
-      pressure: random(5, 90)
-    },
-    gpu: {
-      usage: random(3, 93),
-      vramTotalMb: 8192,
-      vramUsedMb: random(1000, 7900),
-      temperature: random(45, 88)
-    },
-    disk: {
-      readMbps: random(5, 380),
-      writeMbps: random(3, 220),
-      health: random(74, 99),
-      usedPercent: random(30, 82)
-    },
-    network: {
-      upMbps: random(0.2, 25),
-      downMbps: random(0.8, 120),
-      activeConnections: Math.round(random(12, 340))
-    },
-    thermal: {
-      throttling: Math.random() > 0.88,
-      condition: ['normal', 'warm', 'hot'][Math.floor(Math.random() * 3)] as 'normal' | 'warm' | 'hot'
-    }
-  });
+const collector = new TelemetryCollector();
+const getTelemetry = (): TelemetrySnapshot => TelemetrySchema.parse(collector.collect());
 
 /** Registers validated IPC handlers for the renderer bridge. */
 export const registerIpcHandlers = (
@@ -118,4 +109,34 @@ export const registerIpcHandlers = (
     setAutoStart(parsed.enabled);
     return { ok: true, enabled: getAutoStart() };
   });
+
+  ipcMain.handle('dashboard:getUser', () => getUserDashboard(db));
+  ipcMain.handle('dashboard:getDeveloper', () => getDeveloperDashboard(db));
+  ipcMain.handle('dashboard:getAdmin', () => getAdminDashboard(db));
+  ipcMain.handle('admin:setPolicy', (_, payload: unknown): { ok: true } => {
+    const { key, value } = SetPolicySchema.parse(payload);
+    setPolicy(db, key, value);
+    return { ok: true };
+  });
+  ipcMain.handle('admin:deletePolicy', (_, payload: unknown): { ok: boolean } => ({
+    ok: deletePolicy(db, DeletePolicySchema.parse(payload).key)
+  }));
+  ipcMain.handle('admin:createSnapshot', (_, payload: unknown): { id: string } => ({
+    id: createSnapshot(db, CreateSnapshotSchema.parse(payload).reason)
+  }));
+  ipcMain.handle('admin:purgeLogs', (_, payload: unknown): { removed: number } => ({
+    removed: purgeLogs(db, PurgeLogsSchema.parse(payload).olderThanDays)
+  }));
+  ipcMain.handle('logs:list', (_, payload: unknown) => listLogs(db, LogQuerySchema.parse(payload ?? {})));
+  ipcMain.handle('snapshot:verify', (_, payload: unknown) => verifySnapshot(db, VerifySnapshotSchema.parse(payload).id));
+  ipcMain.handle('sanitizer:check', (_, payload: unknown) => validatePowerShellCommand(SanitizeSchema.parse(payload).command));
+  ipcMain.handle('workflow:list', () => listWorkflows(db));
+  ipcMain.handle('workflow:create', (_, payload: unknown) => {
+    const { title, command } = CreateWorkflowSchema.parse(payload);
+    return createWorkflow(db, title, command);
+  });
+  ipcMain.handle('workflow:advance', (_, payload: unknown) => advanceWorkflow(db, WorkflowIdSchema.parse(payload).id));
+  ipcMain.handle('workflow:rollback', (_, payload: unknown) => rollbackWorkflow(db, WorkflowIdSchema.parse(payload).id));
+  ipcMain.handle('security:getPosture', () => getSecurityPosture(db));
+  ipcMain.handle('monitor:getHealth', async () => HealthReportSchema.parse(await collectHealth(db)));
 };

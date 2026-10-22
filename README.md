@@ -454,3 +454,9 @@ https://github.com/SolanaRemix/Systemai/blob/main/README.md
 ```bash
 git clone https://github.com/SolanaRemix/Systemai.git
 cd Systemai
+
+---
+
+## Role Dashboards (v4.5.0)
+
+User (`/user`), Developer (`/developer`) and Admin (`/admin`) dashboards are wired to the SQLite store through validated IPC channels. See [docs/DASHBOARDS.md](docs/DASHBOARDS.md) and the [CHANGELOG](CHANGELOG.md).

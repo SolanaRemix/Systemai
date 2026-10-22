@@ -36,3 +36,13 @@ CREATE TABLE IF NOT EXISTS policy_store (
   policy_value TEXT NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS workflows (
+  id TEXT PRIMARY KEY,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  title TEXT NOT NULL,
+  command TEXT NOT NULL,
+  risk TEXT NOT NULL CHECK (risk IN ('low','medium','high')),
+  stage TEXT NOT NULL CHECK (stage IN ('preview','approve','execute','verify','done','rollback'))
+);

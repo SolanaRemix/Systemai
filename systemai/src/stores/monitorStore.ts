@@ -1,21 +1,10 @@
 import { create } from 'zustand';
-import type { TelemetrySnapshot } from '../ipc/channels';
-
-export interface ServiceStatus {
-  name: string;
-  status: 'healthy' | 'degraded' | 'offline';
-}
-
-interface SecurityState {
-  defender: 'on' | 'off';
-  firewall: 'on' | 'off';
-  updates: 'current' | 'pending';
-}
+import type { HealthReport, TelemetrySnapshot } from '../ipc/channels';
 
 interface MonitorStore {
   telemetry: TelemetrySnapshot;
-  services: ServiceStatus[];
-  securityState: SecurityState;
+  health: HealthReport | null;
+  fetchHealth: () => Promise<void>;
   fetchTelemetry: () => Promise<void>;
   startPolling: () => void;
   stopPolling: () => void;
@@ -34,12 +23,10 @@ const defaultTelemetry: TelemetrySnapshot = {
 
 export const useMonitorStore = create<MonitorStore>((set) => ({
   telemetry: defaultTelemetry,
-  services: [
-    { name: 'AI Orchestrator', status: 'healthy' },
-    { name: 'Repair Engine', status: 'healthy' },
-    { name: 'Workflow Engine', status: 'degraded' }
-  ],
-  securityState: { defender: 'on', firewall: 'on', updates: 'current' },
+  health: null,
+  fetchHealth: async () => {
+    set({ health: await window.systemai.getHealth() });
+  },
   fetchTelemetry: async () => {
     const telemetry = await window.systemai.getTelemetry();
     set({ telemetry });

@@ -1,37 +1,29 @@
-import { useSecurityStore } from '../../stores/securityStore';
+import { useEffect, useState } from 'react';
+import type { SecurityPosture } from '../../ipc/channels';
 
-/** Security score, STRIDE threat model, and approval queue view. */
+/** Security posture computed from stored workflows, snapshots, sanitizer events and telemetry. */
 export const SecurityPanel = (): JSX.Element => {
-  const { securityScore, threats, hardeningTimeline, exposureAlerts, approvalQueue, rollbackSnapshots } = useSecurityStore();
+  const [posture, setPosture] = useState<SecurityPosture | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    window.systemai.getSecurityPosture().then(setPosture).catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
+  }, []);
+
+  if (error) return <p role="alert" className="text-red-400">{error}</p>;
+  if (!posture) return <p>Loading…</p>;
   return (
     <section className="grid gap-4 rounded bg-slate-900 p-4 md:grid-cols-2">
       <div className="rounded bg-slate-950 p-3 text-sm text-slate-200">
-        <h3 className="mb-2">Security Score: {securityScore}</h3>
-        {threats.map((t) => (
-          <p key={t.name}>{t.name}: {t.risk}</p>
-        ))}
+        <h3 className="mb-2">Security Score: {posture.score}</h3>
+        <p>Pending approvals: {posture.pendingApprovals}</p>
+        <p>High-risk workflows active: {posture.highRiskActive}</p>
+        <p>Rejected commands (7d): {posture.rejectedLast7Days}</p>
+        <p>Rollback-ready snapshots: {posture.snapshots}</p>
       </div>
       <div className="rounded bg-slate-950 p-3 text-sm text-slate-200">
-        <h3 className="mb-2">Hardening Timeline</h3>
-        {hardeningTimeline.map((item) => (
-          <p key={item}>• {item}</p>
-        ))}
-      </div>
-      <div className="rounded bg-slate-950 p-3 text-sm text-slate-200">
-        <h3 className="mb-2">Exposure Alerts</h3>
-        {exposureAlerts.map((alert) => (
-          <p key={alert}>• {alert}</p>
-        ))}
-      </div>
-      <div className="rounded bg-slate-950 p-3 text-sm text-slate-200">
-        <h3 className="mb-2">Approval Queue / Snapshots</h3>
-        {approvalQueue.map((a) => (
-          <p key={a.id}>[{a.level}] {a.action}</p>
-        ))}
-        {rollbackSnapshots.map((s) => (
-          <p key={s.id}>Snapshot {s.id}: {s.reason}</p>
-        ))}
+        <h3 className="mb-2">Alerts</h3>
+        {posture.alerts.length === 0 ? <p className="text-xs text-slate-400">No active alerts.</p> : posture.alerts.map((a) => <p key={a}>• {a}</p>)}
       </div>
     </section>
   );
