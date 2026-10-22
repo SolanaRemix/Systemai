@@ -1,6 +1,7 @@
 import os from 'node:os';
 import { ipcMain } from 'electron';
 import type Database from 'better-sqlite3';
+import { TelemetryCollector } from '../backend/monitor-engine';
 import {
   createSnapshot,
   deletePolicy,
@@ -31,43 +32,8 @@ import {
   type TelemetrySnapshot
 } from '../src/ipc/channels';
 
-const random = (min: number, max: number): number => Math.round((Math.random() * (max - min) + min) * 10) / 10;
-
-const getTelemetry = (): TelemetrySnapshot =>
-  TelemetrySchema.parse({
-    cpu: {
-      usage: random(8, 71),
-      temperature: random(40, 85),
-      perCore: Array.from({ length: os.cpus().length }, () => random(5, 95))
-    },
-    memory: {
-      total: os.totalmem(),
-      used: os.totalmem() - os.freemem(),
-      available: os.freemem(),
-      pressure: random(5, 90)
-    },
-    gpu: {
-      usage: random(3, 93),
-      vramTotalMb: 8192,
-      vramUsedMb: random(1000, 7900),
-      temperature: random(45, 88)
-    },
-    disk: {
-      readMbps: random(5, 380),
-      writeMbps: random(3, 220),
-      health: random(74, 99),
-      usedPercent: random(30, 82)
-    },
-    network: {
-      upMbps: random(0.2, 25),
-      downMbps: random(0.8, 120),
-      activeConnections: Math.round(random(12, 340))
-    },
-    thermal: {
-      throttling: Math.random() > 0.88,
-      condition: ['normal', 'warm', 'hot'][Math.floor(Math.random() * 3)] as 'normal' | 'warm' | 'hot'
-    }
-  });
+const collector = new TelemetryCollector();
+const getTelemetry = (): TelemetrySnapshot => TelemetrySchema.parse(collector.collect());
 
 /** Registers validated IPC handlers for the renderer bridge. */
 export const registerIpcHandlers = (

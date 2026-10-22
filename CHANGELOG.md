@@ -4,6 +4,15 @@ All notable changes to SYSTEMAI.EXE are documented here.
 
 ---
 
+# [4.3.0] — 2026-10-22
+
+## Changed
+
+- `monitor:getTelemetry` now returns real host metrics (`TelemetryCollector` in `backend/monitor-engine`): per-core CPU from time deltas, memory, disk/network throughput from `/proc`, thermal zones, disk usage, and NVIDIA GPU via `nvidia-smi` when present. Random values removed.
+- Metrics a host cannot provide (non-Linux throughput/temperature, no GPU) report 0 instead of invented numbers.
+
+---
+
 # [4.2.0] — 2026-10-22
 
 ## Added

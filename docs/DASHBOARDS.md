@@ -26,3 +26,7 @@ Note: the desktop app has no authentication layer; role pages are navigation gro
 
 - `listLogs({level, search, limit})` → `logs:list` (LIKE wildcards escaped)
 - `verifySnapshot(id)` → `snapshot:verify`: checks record exists, hash is a valid SHA-256 digest and rollback-ready. It does not restore state.
+
+## Telemetry
+
+The Monitor and User dashboards use `TelemetryCollector` (real host data). On non-Linux hosts, disk/network throughput and temperature read 0; GPU needs `nvidia-smi`.
