@@ -7,6 +7,7 @@ import {
   LogQuerySchema,
   UserDashboardSchema,
   type LogQuery,
+  type SecurityPosture,
   type LogRow,
   type AdminDashboard,
   type DeveloperDashboard,
@@ -152,4 +153,25 @@ export const verifySnapshot = (db: Database.Database, id: string): { exists: boo
   if (!row) return { exists: false, wellFormed: false, rollbackReady: false };
   audit(db, `Snapshot verified: ${id}`);
   return { exists: true, wellFormed: /^[0-9a-f]{64}$/.test(row.integrity_hash), rollbackReady: row.rollback_ready === 1 };
+};
+
+/** Security posture derived from persisted data (no static scores). */
+export const getSecurityPosture = (db: Database.Database): SecurityPosture => {
+  const n = (sql: string): number => (db.prepare(sql).get() as { n: number }).n;
+  const pendingApprovals = n("SELECT COUNT(*) AS n FROM workflows WHERE stage = 'approve'");
+  const highRiskActive = n("SELECT COUNT(*) AS n FROM workflows WHERE risk = 'high' AND stage IN ('approve','execute','verify')");
+  const rejected = n("SELECT COUNT(*) AS n FROM execution_logs WHERE source = 'sanitizer' AND level = 'warn' AND created_at >= datetime('now','-7 days')");
+  const snapshots = n('SELECT COUNT(*) AS n FROM snapshot_metadata WHERE rollback_ready = 1');
+  const latest = db
+    .prepare('SELECT throttling, disk_health FROM telemetry_snapshots ORDER BY id DESC LIMIT 1')
+    .get() as { throttling: number; disk_health: number } | undefined;
+  const alerts: string[] = [];
+  if (snapshots === 0) alerts.push('No rollback-ready snapshot exists');
+  if (pendingApprovals > 0) alerts.push(`${pendingApprovals} workflow(s) awaiting approval`);
+  if (highRiskActive > 0) alerts.push(`${highRiskActive} high-risk workflow(s) in progress`);
+  if (rejected > 0) alerts.push(`${rejected} command(s) rejected by sanitizer in the last 7 days`);
+  if (latest?.throttling) alerts.push('Thermal throttling detected in latest telemetry');
+  if (latest && latest.disk_health < 80) alerts.push('Disk nearly full');
+  const score = Math.max(0, 100 - (snapshots === 0 ? 20 : 0) - Math.min(pendingApprovals * 5, 20) - highRiskActive * 10 - Math.min(rejected * 3, 15) - (latest?.throttling ? 10 : 0) - (latest && latest.disk_health < 80 ? 10 : 0));
+  return { score, pendingApprovals, highRiskActive, rejectedLast7Days: rejected, snapshots, alerts };
 };

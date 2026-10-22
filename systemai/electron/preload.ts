@@ -2,6 +2,9 @@ import { contextBridge, ipcRenderer } from 'electron';
 import {
   ChatRequestSchema,
   CreateSnapshotSchema,
+  CreateWorkflowSchema,
+  SanitizeSchema,
+  WorkflowIdSchema,
   LogQuerySchema,
   VerifySnapshotSchema,
   type LogQuery,
@@ -10,6 +13,10 @@ import {
   PurgeLogsSchema,
   SetPolicySchema,
   type AdminDashboard,
+  CommandPreview,
+  CreateWorkflowResult,
+  SecurityPosture,
+  WorkflowRow,
   type DeveloperDashboard,
   type UserDashboard,
   SetAutoStartSchema,
@@ -36,6 +43,12 @@ interface SystemAIApi {
   purgeLogs: (olderThanDays: number) => Promise<{ removed: number }>;
   listLogs: (query?: LogQuery) => Promise<LogRow[]>;
   verifySnapshot: (id: string) => Promise<{ exists: boolean; wellFormed: boolean; rollbackReady: boolean }>;
+  checkCommand: (command: string) => Promise<CommandPreview>;
+  listWorkflows: () => Promise<WorkflowRow[]>;
+  createWorkflow: (title: string, command: string) => Promise<CreateWorkflowResult>;
+  advanceWorkflow: (id: string) => Promise<WorkflowRow>;
+  rollbackWorkflow: (id: string) => Promise<WorkflowRow>;
+  getSecurityPosture: () => Promise<SecurityPosture>;
 }
 
 const api: SystemAIApi = {
@@ -53,7 +66,14 @@ const api: SystemAIApi = {
   createSnapshot: (reason) => ipcRenderer.invoke('admin:createSnapshot', CreateSnapshotSchema.parse({ reason })),
   purgeLogs: (olderThanDays) => ipcRenderer.invoke('admin:purgeLogs', PurgeLogsSchema.parse({ olderThanDays })),
   listLogs: (query) => ipcRenderer.invoke('logs:list', LogQuerySchema.parse(query ?? {})),
-  verifySnapshot: (id) => ipcRenderer.invoke('snapshot:verify', VerifySnapshotSchema.parse({ id }))
+  verifySnapshot: (id) => ipcRenderer.invoke('snapshot:verify', VerifySnapshotSchema.parse({ id })),
+  checkCommand: (command) => ipcRenderer.invoke('sanitizer:check', SanitizeSchema.parse({ command })),
+  listWorkflows: () => ipcRenderer.invoke('workflow:list'),
+  createWorkflow: (title, command) =>
+    ipcRenderer.invoke('workflow:create', CreateWorkflowSchema.parse({ title, command })),
+  advanceWorkflow: (id) => ipcRenderer.invoke('workflow:advance', WorkflowIdSchema.parse({ id })),
+  rollbackWorkflow: (id) => ipcRenderer.invoke('workflow:rollback', WorkflowIdSchema.parse({ id })),
+  getSecurityPosture: () => ipcRenderer.invoke('security:getPosture')
 };
 
 contextBridge.exposeInMainWorld('systemai', api);

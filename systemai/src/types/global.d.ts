@@ -1,4 +1,8 @@
 import type {
+  CommandPreview,
+  CreateWorkflowResult,
+  SecurityPosture,
+  WorkflowRow,
   LogQuery,
   LogRow,
   AdminDashboard,
@@ -28,6 +32,12 @@ declare global {
       purgeLogs: (olderThanDays: number) => Promise<{ removed: number }>;
       listLogs: (query?: LogQuery) => Promise<LogRow[]>;
       verifySnapshot: (id: string) => Promise<{ exists: boolean; wellFormed: boolean; rollbackReady: boolean }>;
+      checkCommand: (command: string) => Promise<CommandPreview>;
+      listWorkflows: () => Promise<WorkflowRow[]>;
+      createWorkflow: (title: string, command: string) => Promise<CreateWorkflowResult>;
+      advanceWorkflow: (id: string) => Promise<WorkflowRow>;
+      rollbackWorkflow: (id: string) => Promise<WorkflowRow>;
+      getSecurityPosture: () => Promise<SecurityPosture>;
     };
   }
 }

@@ -89,6 +89,12 @@ export const IPC_CHANNELS = [
   { channel: 'settings:setAutoStart', description: 'Toggle launch at login', role: 'user' },
   { channel: 'logs:list', description: 'Query execution logs with level/search filters', role: 'user' },
   { channel: 'snapshot:verify', description: 'Verify a snapshot record against its stored integrity hash', role: 'admin' },
+  { channel: 'sanitizer:check', description: 'Static policy analysis of a command (never executes)', role: 'user' },
+  { channel: 'workflow:list', description: 'List orchestrator workflows', role: 'user' },
+  { channel: 'workflow:create', description: 'Create a workflow after sanitizing its command', role: 'user' },
+  { channel: 'workflow:advance', description: 'Advance a workflow one stage', role: 'admin' },
+  { channel: 'workflow:rollback', description: 'Roll back an unfinished workflow', role: 'admin' },
+  { channel: 'security:getPosture', description: 'Security posture derived from stored data', role: 'user' },
   { channel: 'dashboard:getUser', description: 'User dashboard summary', role: 'user' },
   { channel: 'dashboard:getDeveloper', description: 'Developer dashboard: DB stats and API catalog', role: 'developer' },
   { channel: 'dashboard:getAdmin', description: 'Admin dashboard: policies, audit, snapshots', role: 'admin' },
@@ -169,3 +175,35 @@ export const LogQuerySchema = z.object({
 export const VerifySnapshotSchema = z.object({ id: z.string().min(1).max(64) });
 export type LogQuery = z.input<typeof LogQuerySchema>;
 export type LogRow = z.infer<typeof LogRowSchema>;
+
+export const SanitizeSchema = z.object({ command: z.string().max(5000) });
+export const CreateWorkflowSchema = z.object({ title: z.string().min(1).max(120), command: z.string().min(1).max(5000) });
+export const WorkflowIdSchema = z.object({ id: z.string().min(1).max(64) });
+export const CommandPreviewSchema = z.object({
+  command: z.string(),
+  allowed: z.boolean(),
+  risk: z.enum(['low', 'medium', 'high']),
+  reason: z.string(),
+  matched: z.array(z.string())
+});
+export const WorkflowRowSchema = z.object({
+  id: z.string(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  title: z.string(),
+  command: z.string(),
+  risk: z.enum(['low', 'medium', 'high']),
+  stage: z.enum(['preview', 'approve', 'execute', 'verify', 'done', 'rollback'])
+});
+export const SecurityPostureSchema = z.object({
+  score: z.number(),
+  pendingApprovals: z.number(),
+  highRiskActive: z.number(),
+  rejectedLast7Days: z.number(),
+  snapshots: z.number(),
+  alerts: z.array(z.string())
+});
+export type CommandPreview = z.infer<typeof CommandPreviewSchema>;
+export type WorkflowRow = z.infer<typeof WorkflowRowSchema>;
+export type SecurityPosture = z.infer<typeof SecurityPostureSchema>;
+export type CreateWorkflowResult = { ok: true; workflow: WorkflowRow } | { ok: false; reason: string };

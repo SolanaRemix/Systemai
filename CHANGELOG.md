@@ -4,6 +4,21 @@ All notable changes to SYSTEMAI.EXE are documented here.
 
 ---
 
+# [4.4.0] — 2026-10-22
+
+## Added
+
+- Persisted workflow orchestrator (`workflows` table, migration `002_workflows.sql`): preview → approve → execute → verify → done, plus rollback; every transition is logged. The engine tracks approvals and audit; it does not execute commands.
+- Command sanitizer with rule-based deny/risk classification (`sanitizer:check`); rejected commands are never stored and are logged as warnings
+- Security posture computed from workflows, snapshots, sanitizer events and telemetry (`security:getPosture`)
+- Sanitizer, Orchestrator and Security pages wired to the above; SDK: `checkCommand`, `listWorkflows`, `createWorkflow`, `advanceWorkflow`, `rollbackWorkflow`, `getSecurityPosture`
+
+## Removed
+
+- Static mock `securityStore` (hardcoded score, threats and alerts)
+
+---
+
 # [4.3.0] — 2026-10-22
 
 ## Changed

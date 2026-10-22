@@ -1,12 +1,15 @@
 import os from 'node:os';
 import { ipcMain } from 'electron';
 import type Database from 'better-sqlite3';
+import { validatePowerShellCommand } from '../backend/powershell-bridge';
+import { advanceWorkflow, createWorkflow, listWorkflows, rollbackWorkflow } from '../backend/workflow-engine';
 import { TelemetryCollector } from '../backend/monitor-engine';
 import {
   createSnapshot,
   deletePolicy,
   getAdminDashboard,
   getDeveloperDashboard,
+  getSecurityPosture,
   getUserDashboard,
   listLogs,
   verifySnapshot,
@@ -15,6 +18,9 @@ import {
 } from '../backend/dashboard-service';
 import {
   CreateSnapshotSchema,
+  CreateWorkflowSchema,
+  SanitizeSchema,
+  WorkflowIdSchema,
   LogQuerySchema,
   VerifySnapshotSchema,
   DeletePolicySchema,
@@ -121,4 +127,13 @@ export const registerIpcHandlers = (
   }));
   ipcMain.handle('logs:list', (_, payload: unknown) => listLogs(db, LogQuerySchema.parse(payload ?? {})));
   ipcMain.handle('snapshot:verify', (_, payload: unknown) => verifySnapshot(db, VerifySnapshotSchema.parse(payload).id));
+  ipcMain.handle('sanitizer:check', (_, payload: unknown) => validatePowerShellCommand(SanitizeSchema.parse(payload).command));
+  ipcMain.handle('workflow:list', () => listWorkflows(db));
+  ipcMain.handle('workflow:create', (_, payload: unknown) => {
+    const { title, command } = CreateWorkflowSchema.parse(payload);
+    return createWorkflow(db, title, command);
+  });
+  ipcMain.handle('workflow:advance', (_, payload: unknown) => advanceWorkflow(db, WorkflowIdSchema.parse(payload).id));
+  ipcMain.handle('workflow:rollback', (_, payload: unknown) => rollbackWorkflow(db, WorkflowIdSchema.parse(payload).id));
+  ipcMain.handle('security:getPosture', () => getSecurityPosture(db));
 };
