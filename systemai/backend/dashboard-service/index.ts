@@ -4,7 +4,10 @@ import {
   AdminDashboardSchema,
   DeveloperDashboardSchema,
   IPC_CHANNELS,
+  LogQuerySchema,
   UserDashboardSchema,
+  type LogQuery,
+  type LogRow,
   type AdminDashboard,
   type DeveloperDashboard,
   type UserDashboard
@@ -98,11 +101,15 @@ export const deletePolicy = (db: Database.Database, key: string): boolean => {
   return changed;
 };
 
+const snapshotHash = (id: string, reason: string, policies: unknown[]): string =>
+  createHash('sha256').update(JSON.stringify({ id, reason, policies })).digest('hex');
+
+const policyState = (db: Database.Database): unknown[] =>
+  db.prepare('SELECT policy_key, policy_value FROM policy_store ORDER BY policy_key').all();
+
 export const createSnapshot = (db: Database.Database, reason: string): string => {
   const id = `snap_${randomUUID()}`;
-  const hash = createHash('sha256')
-    .update(JSON.stringify({ id, reason, policies: db.prepare('SELECT * FROM policy_store ORDER BY policy_key').all() }))
-    .digest('hex');
+  const hash = snapshotHash(id, reason, policyState(db));
   db.prepare('INSERT INTO snapshot_metadata (id, reason, integrity_hash, rollback_ready) VALUES (?, ?, ?, 1)').run(
     id,
     reason,
@@ -118,4 +125,31 @@ export const purgeLogs = (db: Database.Database, olderThanDays: number): number 
     .run(`-${Math.floor(olderThanDays)} days`).changes;
   audit(db, `Purged ${removed} logs older than ${olderThanDays} days`);
   return removed;
+};
+
+/** Queries execution logs with optional level and substring filters. */
+export const listLogs = (db: Database.Database, query: LogQuery): LogRow[] => {
+  const q = LogQuerySchema.parse(query);
+  const where: string[] = [];
+  const args: (string | number)[] = [];
+  if (q.level !== 'all') {
+    where.push('level = ?');
+    args.push(q.level);
+  }
+  if (q.search) {
+    where.push("message LIKE ? ESCAPE '\\'");
+    args.push(`%${q.search.replace(/[\\%_]/g, (c) => `\\${c}`)}%`);
+  }
+  const sql = `SELECT * FROM execution_logs ${where.length ? `WHERE ${where.join(' AND ')}` : ''} ORDER BY id DESC LIMIT ?`;
+  return db.prepare(sql).all(...args, q.limit) as LogRow[];
+};
+
+/** Checks a snapshot record exists, holds a well-formed SHA-256 digest and is flagged rollback-ready. */
+export const verifySnapshot = (db: Database.Database, id: string): { exists: boolean; wellFormed: boolean; rollbackReady: boolean } => {
+  const row = db.prepare('SELECT integrity_hash, rollback_ready FROM snapshot_metadata WHERE id = ?').get(id) as
+    | { integrity_hash: string; rollback_ready: number }
+    | undefined;
+  if (!row) return { exists: false, wellFormed: false, rollbackReady: false };
+  audit(db, `Snapshot verified: ${id}`);
+  return { exists: true, wellFormed: /^[0-9a-f]{64}$/.test(row.integrity_hash), rollbackReady: row.rollback_ready === 1 };
 };

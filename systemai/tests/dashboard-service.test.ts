@@ -51,3 +51,17 @@ describe('dashboard service', () => {
     expect(dev.tables.find((t) => t.name === 'policy_store')?.rows).toBe(0);
   });
 });
+
+describe('logs and snapshot verification', () => {
+  it('filters logs and escapes wildcards', async () => {
+    const { listLogs, verifySnapshot } = await import('../backend/dashboard-service');
+    db.prepare("INSERT INTO execution_logs (level,message,source) VALUES ('error','disk 100% full','a'),('info','ok','b')").run();
+    expect(listLogs(db, { level: 'error' })).toHaveLength(1);
+    expect(listLogs(db, { search: '100%' })).toHaveLength(1);
+    expect(listLogs(db, { search: '%' })).toHaveLength(1);
+    expect(listLogs(db, {})).toHaveLength(2);
+    const id = createSnapshot(db, 'x');
+    expect(verifySnapshot(db, id)).toEqual({ exists: true, wellFormed: true, rollbackReady: true });
+    expect(verifySnapshot(db, 'missing').exists).toBe(false);
+  });
+});

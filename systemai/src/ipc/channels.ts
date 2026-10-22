@@ -87,6 +87,8 @@ export const IPC_CHANNELS = [
   { channel: 'chat:send', description: 'Send a chat request to the assistant', role: 'user' },
   { channel: 'settings:setPerformanceMode', description: 'Persist performance mode policy', role: 'user' },
   { channel: 'settings:setAutoStart', description: 'Toggle launch at login', role: 'user' },
+  { channel: 'logs:list', description: 'Query execution logs with level/search filters', role: 'user' },
+  { channel: 'snapshot:verify', description: 'Verify a snapshot record against its stored integrity hash', role: 'admin' },
   { channel: 'dashboard:getUser', description: 'User dashboard summary', role: 'user' },
   { channel: 'dashboard:getDeveloper', description: 'Developer dashboard: DB stats and API catalog', role: 'developer' },
   { channel: 'dashboard:getAdmin', description: 'Admin dashboard: policies, audit, snapshots', role: 'admin' },
@@ -158,3 +160,12 @@ export const PurgeLogsSchema = z.object({ olderThanDays: z.number().int().min(1)
 export type UserDashboard = z.infer<typeof UserDashboardSchema>;
 export type DeveloperDashboard = z.infer<typeof DeveloperDashboardSchema>;
 export type AdminDashboard = z.infer<typeof AdminDashboardSchema>;
+
+export const LogQuerySchema = z.object({
+  level: z.enum(['all', 'info', 'warn', 'error']).default('all'),
+  search: z.string().max(200).default(''),
+  limit: z.number().int().min(1).max(500).default(100)
+});
+export const VerifySnapshotSchema = z.object({ id: z.string().min(1).max(64) });
+export type LogQuery = z.input<typeof LogQuerySchema>;
+export type LogRow = z.infer<typeof LogRowSchema>;

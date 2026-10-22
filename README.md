@@ -457,6 +457,6 @@ cd Systemai
 
 ---
 
-## Role Dashboards (v4.1.0)
+## Role Dashboards (v4.2.0)
 
 User (`/user`), Developer (`/developer`) and Admin (`/admin`) dashboards are wired to the SQLite store through validated IPC channels. See [docs/DASHBOARDS.md](docs/DASHBOARDS.md) and the [CHANGELOG](CHANGELOG.md).

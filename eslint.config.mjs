@@ -16,6 +16,6 @@ export default [
     }
   },
   {
-    ignores: ['dist/**', 'node_modules/**', '.vite/**']
+    ignores: ['dist/**', 'node_modules/**', '.vite/**', '**/*.cjs', 'systemai/rust-core/target/**']
   }
 ];

@@ -4,6 +4,19 @@ All notable changes to SYSTEMAI.EXE are documented here.
 
 ---
 
+# [4.2.0] — 2026-10-22
+
+## Added
+
+- Log viewer wired to `execution_logs` with level/search filters (`logs:list`, `listLogs` SDK)
+- Rollback panel lists snapshots and verifies integrity records (`snapshot:verify`, `verifySnapshot` SDK)
+
+## Fixed
+
+- ESLint no longer fails on `postcss.config.cjs`, so `npm run build` lint step passes
+
+---
+
 # [4.1.0] — 2026-10-22
 
 ## Added

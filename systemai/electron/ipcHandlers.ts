@@ -7,11 +7,15 @@ import {
   getAdminDashboard,
   getDeveloperDashboard,
   getUserDashboard,
+  listLogs,
+  verifySnapshot,
   purgeLogs,
   setPolicy
 } from '../backend/dashboard-service';
 import {
   CreateSnapshotSchema,
+  LogQuerySchema,
+  VerifySnapshotSchema,
   DeletePolicySchema,
   PurgeLogsSchema,
   SetPolicySchema,
@@ -149,4 +153,6 @@ export const registerIpcHandlers = (
   ipcMain.handle('admin:purgeLogs', (_, payload: unknown): { removed: number } => ({
     removed: purgeLogs(db, PurgeLogsSchema.parse(payload).olderThanDays)
   }));
+  ipcMain.handle('logs:list', (_, payload: unknown) => listLogs(db, LogQuerySchema.parse(payload ?? {})));
+  ipcMain.handle('snapshot:verify', (_, payload: unknown) => verifySnapshot(db, VerifySnapshotSchema.parse(payload).id));
 };

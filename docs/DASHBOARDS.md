@@ -1,4 +1,4 @@
-# Role Dashboards (v4.1.0)
+# Role Dashboards (v4.2.0)
 
 All data comes from the local SQLite database (`telemetry_snapshots`, `execution_logs`, `policy_store`, `snapshot_metadata`).
 
@@ -21,3 +21,8 @@ Each admin mutation is recorded in `execution_logs` with source `admin`, shown a
 The full channel catalog is defined in `systemai/src/ipc/channels.ts` (`IPC_CHANNELS`) and displayed on the Developer dashboard.
 
 Note: the desktop app has no authentication layer; role pages are navigation groupings, not access control.
+
+## Logs & rollback
+
+- `listLogs({level, search, limit})` → `logs:list` (LIKE wildcards escaped)
+- `verifySnapshot(id)` → `snapshot:verify`: checks record exists, hash is a valid SHA-256 digest and rollback-ready. It does not restore state.

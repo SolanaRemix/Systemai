@@ -2,6 +2,10 @@ import { contextBridge, ipcRenderer } from 'electron';
 import {
   ChatRequestSchema,
   CreateSnapshotSchema,
+  LogQuerySchema,
+  VerifySnapshotSchema,
+  type LogQuery,
+  type LogRow,
   DeletePolicySchema,
   PurgeLogsSchema,
   SetPolicySchema,
@@ -30,6 +34,8 @@ interface SystemAIApi {
   deletePolicy: (key: string) => Promise<{ ok: boolean }>;
   createSnapshot: (reason: string) => Promise<{ id: string }>;
   purgeLogs: (olderThanDays: number) => Promise<{ removed: number }>;
+  listLogs: (query?: LogQuery) => Promise<LogRow[]>;
+  verifySnapshot: (id: string) => Promise<{ exists: boolean; wellFormed: boolean; rollbackReady: boolean }>;
 }
 
 const api: SystemAIApi = {
@@ -45,7 +51,9 @@ const api: SystemAIApi = {
   setPolicy: (key, value) => ipcRenderer.invoke('admin:setPolicy', SetPolicySchema.parse({ key, value })),
   deletePolicy: (key) => ipcRenderer.invoke('admin:deletePolicy', DeletePolicySchema.parse({ key })),
   createSnapshot: (reason) => ipcRenderer.invoke('admin:createSnapshot', CreateSnapshotSchema.parse({ reason })),
-  purgeLogs: (olderThanDays) => ipcRenderer.invoke('admin:purgeLogs', PurgeLogsSchema.parse({ olderThanDays }))
+  purgeLogs: (olderThanDays) => ipcRenderer.invoke('admin:purgeLogs', PurgeLogsSchema.parse({ olderThanDays })),
+  listLogs: (query) => ipcRenderer.invoke('logs:list', LogQuerySchema.parse(query ?? {})),
+  verifySnapshot: (id) => ipcRenderer.invoke('snapshot:verify', VerifySnapshotSchema.parse({ id }))
 };
 
 contextBridge.exposeInMainWorld('systemai', api);

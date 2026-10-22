@@ -1,4 +1,6 @@
 import type {
+  LogQuery,
+  LogRow,
   AdminDashboard,
   DeveloperDashboard,
   UserDashboard,
@@ -24,6 +26,8 @@ declare global {
       deletePolicy: (key: string) => Promise<{ ok: boolean }>;
       createSnapshot: (reason: string) => Promise<{ id: string }>;
       purgeLogs: (olderThanDays: number) => Promise<{ removed: number }>;
+      listLogs: (query?: LogQuery) => Promise<LogRow[]>;
+      verifySnapshot: (id: string) => Promise<{ exists: boolean; wellFormed: boolean; rollbackReady: boolean }>;
     };
   }
 }
