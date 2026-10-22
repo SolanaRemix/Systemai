@@ -13,6 +13,7 @@ import {
   PurgeLogsSchema,
   SetPolicySchema,
   type AdminDashboard,
+  type HealthReport,
   CommandPreview,
   CreateWorkflowResult,
   SecurityPosture,
@@ -49,6 +50,7 @@ interface SystemAIApi {
   advanceWorkflow: (id: string) => Promise<WorkflowRow>;
   rollbackWorkflow: (id: string) => Promise<WorkflowRow>;
   getSecurityPosture: () => Promise<SecurityPosture>;
+  getHealth: () => Promise<HealthReport>;
 }
 
 const api: SystemAIApi = {
@@ -73,7 +75,8 @@ const api: SystemAIApi = {
     ipcRenderer.invoke('workflow:create', CreateWorkflowSchema.parse({ title, command })),
   advanceWorkflow: (id) => ipcRenderer.invoke('workflow:advance', WorkflowIdSchema.parse({ id })),
   rollbackWorkflow: (id) => ipcRenderer.invoke('workflow:rollback', WorkflowIdSchema.parse({ id })),
-  getSecurityPosture: () => ipcRenderer.invoke('security:getPosture')
+  getSecurityPosture: () => ipcRenderer.invoke('security:getPosture'),
+  getHealth: () => ipcRenderer.invoke('monitor:getHealth')
 };
 
 contextBridge.exposeInMainWorld('systemai', api);

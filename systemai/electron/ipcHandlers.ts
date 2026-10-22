@@ -3,6 +3,7 @@ import { ipcMain } from 'electron';
 import type Database from 'better-sqlite3';
 import { validatePowerShellCommand } from '../backend/powershell-bridge';
 import { advanceWorkflow, createWorkflow, listWorkflows, rollbackWorkflow } from '../backend/workflow-engine';
+import { collectHealth } from '../backend/monitor-engine/health';
 import { TelemetryCollector } from '../backend/monitor-engine';
 import {
   createSnapshot,
@@ -18,6 +19,7 @@ import {
 } from '../backend/dashboard-service';
 import {
   CreateSnapshotSchema,
+  HealthReportSchema,
   CreateWorkflowSchema,
   SanitizeSchema,
   WorkflowIdSchema,
@@ -136,4 +138,5 @@ export const registerIpcHandlers = (
   ipcMain.handle('workflow:advance', (_, payload: unknown) => advanceWorkflow(db, WorkflowIdSchema.parse(payload).id));
   ipcMain.handle('workflow:rollback', (_, payload: unknown) => rollbackWorkflow(db, WorkflowIdSchema.parse(payload).id));
   ipcMain.handle('security:getPosture', () => getSecurityPosture(db));
+  ipcMain.handle('monitor:getHealth', async () => HealthReportSchema.parse(await collectHealth(db)));
 };

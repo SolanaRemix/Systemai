@@ -1,4 +1,5 @@
 import type {
+  HealthReport,
   CommandPreview,
   CreateWorkflowResult,
   SecurityPosture,
@@ -38,6 +39,7 @@ declare global {
       advanceWorkflow: (id: string) => Promise<WorkflowRow>;
       rollbackWorkflow: (id: string) => Promise<WorkflowRow>;
       getSecurityPosture: () => Promise<SecurityPosture>;
+      getHealth: () => Promise<HealthReport>;
     };
   }
 }

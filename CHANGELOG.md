@@ -4,6 +4,18 @@ All notable changes to SYSTEMAI.EXE are documented here.
 
 ---
 
+# [4.5.0] — 2026-10-22
+
+## Added
+
+- Live health probes (`monitor:getHealth`, SDK `getHealth`): database, telemetry freshness, stalled workflows, AI Orchestrator port probe, Windows Defender real-time protection and firewall state (Windows PowerShell; `ufw` on Linux)
+
+## Changed
+
+- Monitor page shows probed service/security status with details; hardcoded statuses removed. Defender/Firewall report `unknown` when the host cannot be queried.
+
+---
+
 # [4.4.0] — 2026-10-22
 
 ## Added

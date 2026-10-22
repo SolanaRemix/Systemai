@@ -95,6 +95,7 @@ export const IPC_CHANNELS = [
   { channel: 'workflow:advance', description: 'Advance a workflow one stage', role: 'admin' },
   { channel: 'workflow:rollback', description: 'Roll back an unfinished workflow', role: 'admin' },
   { channel: 'security:getPosture', description: 'Security posture derived from stored data', role: 'user' },
+  { channel: 'monitor:getHealth', description: 'Live service and security health probes', role: 'user' },
   { channel: 'dashboard:getUser', description: 'User dashboard summary', role: 'user' },
   { channel: 'dashboard:getDeveloper', description: 'Developer dashboard: DB stats and API catalog', role: 'developer' },
   { channel: 'dashboard:getAdmin', description: 'Admin dashboard: policies, audit, snapshots', role: 'admin' },
@@ -207,3 +208,19 @@ export type CommandPreview = z.infer<typeof CommandPreviewSchema>;
 export type WorkflowRow = z.infer<typeof WorkflowRowSchema>;
 export type SecurityPosture = z.infer<typeof SecurityPostureSchema>;
 export type CreateWorkflowResult = { ok: true; workflow: WorkflowRow } | { ok: false; reason: string };
+
+export const ServiceHealthSchema = z.object({
+  name: z.string(),
+  status: z.enum(['healthy', 'degraded', 'offline']),
+  detail: z.string()
+});
+export const HealthReportSchema = z.object({
+  services: z.array(ServiceHealthSchema),
+  security: z.object({
+    defender: z.enum(['on', 'off', 'unknown']),
+    firewall: z.enum(['on', 'off', 'unknown'])
+  }),
+  checkedAt: z.number()
+});
+export type ServiceHealth = z.infer<typeof ServiceHealthSchema>;
+export type HealthReport = z.infer<typeof HealthReportSchema>;

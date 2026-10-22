@@ -1,4 +1,4 @@
-# Role Dashboards (v4.4.0)
+# Role Dashboards (v4.5.0)
 
 All data comes from the local SQLite database (`telemetry_snapshots`, `execution_logs`, `policy_store`, `snapshot_metadata`).
 
@@ -31,7 +31,7 @@ Note: the desktop app has no authentication layer; role pages are navigation gro
 
 The Monitor and User dashboards use `TelemetryCollector` (real host data). On non-Linux hosts, disk/network throughput and temperature read 0; GPU needs `nvidia-smi`.
 
-## Orchestrator, sanitizer & security (v4.4.0)
+## Orchestrator, sanitizer & security (v4.5.0)
 
 | SDK method | Channel |
 |---|---|
@@ -41,3 +41,7 @@ The Monitor and User dashboards use `TelemetryCollector` (real host data). On no
 | `getSecurityPosture()` | `security:getPosture` |
 
 Pipeline: `preview → approve → execute → verify → done`; `rollback` is available until `done`. Commands denied by the sanitizer (format, encoded commands, download-and-execute, drive-root deletion…) are never stored. The engine records approvals and audit entries only — it does not run commands.
+
+## Health probes (v4.5.0)
+
+`getHealth()` → `monitor:getHealth` returns service and security status. Defender needs Windows PowerShell; firewall uses PowerShell (Windows) or `ufw` (Linux, may need privileges); otherwise `unknown`.
