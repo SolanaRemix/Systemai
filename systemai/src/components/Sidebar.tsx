@@ -11,6 +11,9 @@ const links = [
   'Orchestrator',
   'Logs',
   'Rollback',
+  'User',
+  'Developer',
+  'Admin',
   'Settings'
 ];
 

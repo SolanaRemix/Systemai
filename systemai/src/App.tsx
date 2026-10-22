@@ -9,6 +9,7 @@ import { OrchestratorPage } from './pages/OrchestratorPage';
 import { LogsPage } from './pages/LogsPage';
 import { RollbackPage } from './pages/RollbackPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { UserDashboardPage, DeveloperDashboardPage, AdminDashboardPage } from './pages/RoleDashboards';
 import { NotificationCenter } from './components/Notifications/NotificationCenter';
 
 const Layout = ({ children }: { children: React.ReactNode }): JSX.Element => (
@@ -29,6 +30,9 @@ export const App = (): JSX.Element => (
       <Route path="/orchestrator" element={<OrchestratorPage />} />
       <Route path="/logs" element={<LogsPage />} />
       <Route path="/rollback" element={<RollbackPage />} />
+      <Route path="/user" element={<UserDashboardPage />} />
+      <Route path="/developer" element={<DeveloperDashboardPage />} />
+      <Route path="/admin" element={<AdminDashboardPage />} />
       <Route path="/settings" element={<SettingsPage />} />
     </Routes>
     <NotificationCenter />

@@ -1,0 +1,23 @@
+# Role Dashboards (v4.1.0)
+
+All data comes from the local SQLite database (`telemetry_snapshots`, `execution_logs`, `policy_store`, `snapshot_metadata`).
+
+| Route | Audience | IPC channel | SDK method |
+|---|---|---|---|
+| `/user` | End users | `dashboard:getUser` | `window.systemai.getUserDashboard()` |
+| `/developer` | Developers | `dashboard:getDeveloper` | `getDeveloperDashboard()` |
+| `/admin` | Administrators | `dashboard:getAdmin` | `getAdminDashboard()` |
+
+## Admin API
+
+| SDK method | Channel | Effect |
+|---|---|---|
+| `setPolicy(key, value)` | `admin:setPolicy` | Upsert policy (key `[A-Za-z0-9_.-]`, ≤64 chars) |
+| `deletePolicy(key)` | `admin:deletePolicy` | Remove policy |
+| `createSnapshot(reason)` | `admin:createSnapshot` | Record snapshot with SHA-256 integrity hash |
+| `purgeLogs(days)` | `admin:purgeLogs` | Delete logs older than N days |
+
+Each admin mutation is recorded in `execution_logs` with source `admin`, shown as the audit trail.
+The full channel catalog is defined in `systemai/src/ipc/channels.ts` (`IPC_CHANNELS`) and displayed on the Developer dashboard.
+
+Note: the desktop app has no authentication layer; role pages are navigation groupings, not access control.

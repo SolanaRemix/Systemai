@@ -4,6 +4,19 @@ All notable changes to SYSTEMAI.EXE are documented here.
 
 ---
 
+# [4.1.0] — 2026-10-22
+
+## Added
+
+- Role-based dashboards: User (`/user`), Developer (`/developer`), Admin (`/admin`) backed by persisted SQLite data
+- Dashboard service (`systemai/backend/dashboard-service`) with validated IPC channels `dashboard:getUser|getDeveloper|getAdmin`
+- Admin API: `admin:setPolicy`, `admin:deletePolicy`, `admin:createSnapshot` (SHA-256 integrity hash), `admin:purgeLogs`; every admin action is written to the audit trail
+- Preload SDK methods and typed `window.systemai` declarations for all new channels
+- Release workflow (`.github/workflows/release.yml`) publishing GitHub releases from `v*` tags using these changelog notes
+- `docs/DASHBOARDS.md`
+
+---
+
 # [4.0.0] — 2026-05-16
 
 ## Added

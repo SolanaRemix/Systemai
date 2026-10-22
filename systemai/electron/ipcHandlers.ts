@@ -2,6 +2,19 @@ import os from 'node:os';
 import { ipcMain } from 'electron';
 import type Database from 'better-sqlite3';
 import {
+  createSnapshot,
+  deletePolicy,
+  getAdminDashboard,
+  getDeveloperDashboard,
+  getUserDashboard,
+  purgeLogs,
+  setPolicy
+} from '../backend/dashboard-service';
+import {
+  CreateSnapshotSchema,
+  DeletePolicySchema,
+  PurgeLogsSchema,
+  SetPolicySchema,
   AppInfoSchema,
   ChatRequestSchema,
   ChatResponseSchema,
@@ -118,4 +131,22 @@ export const registerIpcHandlers = (
     setAutoStart(parsed.enabled);
     return { ok: true, enabled: getAutoStart() };
   });
+
+  ipcMain.handle('dashboard:getUser', () => getUserDashboard(db));
+  ipcMain.handle('dashboard:getDeveloper', () => getDeveloperDashboard(db));
+  ipcMain.handle('dashboard:getAdmin', () => getAdminDashboard(db));
+  ipcMain.handle('admin:setPolicy', (_, payload: unknown): { ok: true } => {
+    const { key, value } = SetPolicySchema.parse(payload);
+    setPolicy(db, key, value);
+    return { ok: true };
+  });
+  ipcMain.handle('admin:deletePolicy', (_, payload: unknown): { ok: boolean } => ({
+    ok: deletePolicy(db, DeletePolicySchema.parse(payload).key)
+  }));
+  ipcMain.handle('admin:createSnapshot', (_, payload: unknown): { id: string } => ({
+    id: createSnapshot(db, CreateSnapshotSchema.parse(payload).reason)
+  }));
+  ipcMain.handle('admin:purgeLogs', (_, payload: unknown): { removed: number } => ({
+    removed: purgeLogs(db, PurgeLogsSchema.parse(payload).olderThanDays)
+  }));
 };

@@ -1,4 +1,7 @@
 import type {
+  AdminDashboard,
+  DeveloperDashboard,
+  UserDashboard,
   AppInfo,
   ChatRequest,
   ChatResponse,
@@ -14,6 +17,13 @@ declare global {
       sendChat: (request: ChatRequest) => Promise<ChatResponse>;
       setPerformanceMode: (mode: PerformanceMode) => Promise<{ ok: true }>;
       setAutoStart: (enabled: boolean) => Promise<{ ok: true; enabled: boolean }>;
+      getUserDashboard: () => Promise<UserDashboard>;
+      getDeveloperDashboard: () => Promise<DeveloperDashboard>;
+      getAdminDashboard: () => Promise<AdminDashboard>;
+      setPolicy: (key: string, value: string) => Promise<{ ok: true }>;
+      deletePolicy: (key: string) => Promise<{ ok: boolean }>;
+      createSnapshot: (reason: string) => Promise<{ id: string }>;
+      purgeLogs: (olderThanDays: number) => Promise<{ removed: number }>;
     };
   }
 }
